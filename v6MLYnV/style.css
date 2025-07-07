@@ -1,0 +1,132 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #0A0A0A;
+}
+
+/* Custom Buttons */
+.btn-primary {
+    @apply inline-block bg-cyan-500 text-white font-semibold px-5 py-2 rounded-lg shadow-md shadow-cyan-500/20;
+    @apply hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-cyan-500;
+    @apply transition-all duration-300 ease-in-out transform hover:scale-105;
+}
+
+.btn-primary-large {
+    @apply inline-flex items-center justify-center bg-cyan-500 text-white font-bold px-8 py-4 text-lg rounded-xl shadow-lg shadow-cyan-500/20;
+    @apply hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-cyan-500;
+    @apply transition-all duration-300 ease-in-out transform hover:scale-105;
+}
+
+/* Section Titles */
+.section-title {
+    @apply text-3xl md:text-4xl font-extrabold text-white tracking-tight mb-4;
+}
+
+.section-subtitle {
+    @apply text-lg text-gray-400 max-w-3xl mx-auto;
+}
+
+/* Feature Cards */
+.feature-card {
+    @apply bg-gray-800/50 border border-gray-700 p-8 rounded-2xl text-center;
+    @apply transition-all duration-300 ease-in-out transform hover:-translate-y-2 hover:border-cyan-500/50 hover:shadow-2xl hover:shadow-cyan-500/10;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+.feature-card.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.feature-icon {
+    @apply w-16 h-16 bg-gray-900 border-2 border-cyan-500/30 text-cyan-400 rounded-2xl flex items-center justify-center mx-auto mb-6;
+}
+.feature-icon i {
+    @apply w-8 h-8;
+}
+
+.feature-title {
+    @apply text-xl font-bold text-white mb-2;
+}
+
+.feature-description {
+    @apply text-gray-400;
+}
+
+
+/* Target Audience Cards */
+.target-card {
+    @apply bg-transparent border-2 border-gray-800 p-8 rounded-2xl text-left;
+    @apply transition-all duration-300 ease-in-out hover:bg-gray-800/50 hover:border-gray-700;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+.target-card.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.target-icon {
+    @apply w-12 h-12 bg-gray-800 text-cyan-400 rounded-lg flex items-center justify-center mb-5;
+}
+.target-icon i {
+    @apply w-6 h-6;
+}
+
+.target-title {
+    @apply text-xl font-bold text-white mb-3;
+}
+
+.target-description {
+    @apply text-gray-400 leading-relaxed;
+}
+
+
+/* Gallery */
+.gallery-item {
+    @apply relative overflow-hidden rounded-xl border border-gray-800 group;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+.gallery-item.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.gallery-image {
+    @apply w-full h-full object-cover transition-transform duration-500 ease-in-out group-hover:scale-105;
+}
+.gallery-caption {
+    @apply absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/70 to-transparent text-white font-semibold;
+    @apply transition-all duration-300 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0;
+}
+
+/* Background Patterns & Animations */
+.bg-grid-pattern {
+    background-image: linear-gradient(rgba(200, 200, 200, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(200, 200, 200, 0.05) 1px, transparent 1px);
+    background-size: 3rem 3rem;
+}
+
+@keyframes fade-in-up {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fade-in-up 0.8s ease-out forwards;
+}
+
+/* Header scroll effect */
+header.scrolled {
+    @apply bg-gray-900/80 border-gray-700;
+}
