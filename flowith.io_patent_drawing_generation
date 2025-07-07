@@ -1,0 +1,132 @@
+# **Blueprint di Progetto: Flowith.io**
+
+**Documento di Progettazione Architetturale**
+**Versione:** 1.0
+**Data:** 07/03/2025
+**Autore:** Architetto di Sistemi
+
+---
+
+### **1. Executive Summary**
+
+**Flowith.io** è una piattaforma applicativa web-based progettata per rivoluzionare la creazione di disegni tecnici per domande di brevetto. La visione del progetto è colmare il divario critico tra l'ideazione di un'invenzione e la produzione di documentazione grafica conforme agli standard internazionali, riducendo drasticamente tempi, costi e rischi di rigetto formale.
+
+L'obiettivo principale è fornire a inventori, consulenti in proprietà intellettuale e uffici legali uno strumento intelligente e integrato che **automatizza la generazione e la validazione di disegni tecnici** basati su descrizioni testuali o modelli 3D. Flowith.io si posiziona come la soluzione che unisce la potenza del CAD, l'intelligenza dell'elaborazione del linguaggio naturale (NLP) e un rigoroso motore di conformità normativa (USPTO, EPO), il tutto attraverso un'interfaccia utente intuitiva e accessibile.
+
+---
+
+### **2. Analisi delle Funzionalità Chiave**
+
+L'architettura di Flowith.io è modulare e incentrata sulla risoluzione dei punti critici emersi dall'analisi di mercato. Ogni funzionalità è progettata per massimizzare l'efficienza e garantire la conformità.
+
+| Funzionalità Chiave | Descrizione Funzionale | Spunto Architetturale / Competitivo |
+| :--- | :--- | :--- |
+| **Generazione da Testo (NLP-driven)** | L'utente inserisce una descrizione testuale dell'invenzione (es. "un alloggiamento cubico con una scanalatura cilindrica"). Un motore NLP interpreta la semantica e genera un modello 3D parametrico di base. | Si posiziona in diretta competizione con strumenti emergenti come `PatentPal` e `Patently Create`, ma con l'obiettivo di superarne le capacità interpretative per geometrie complesse, non solo diagrammi di flusso. |
+| **Importazione Modelli 3D** | Supporto per l'upload di file CAD standard (es. `.STEP`, `.IGES`, `.OBJ`) generati da software come Fusion360 o SolidWorks. Il sistema importa e normalizza la geometria. | Risolve il principale punto debole dei workflow attuali, dove i modelli CAD richiedono una lunga e costosa post-produzione manuale per diventare conformi. |
+| **Generatore di Viste Automatico** | A partire dal modello 3D (generato o importato), la piattaforma genera automaticamente le viste tecniche standard richieste: ortogonali (fronte, lato, sopra, sezioni) e isometriche/prospettiche. | Funzionalità fondamentale che automatizza uno dei compiti più ripetitivi e soggetti a errori nel disegno tecnico, garantendo coerenza tra le viste. |
+| **Editor 2D Intelligente** | Un ambiente di editing vettoriale web-based che consente all'utente di rifinire i disegni generati. Include strumenti per la modifica di linee (tratteggio, spessore), l'applicazione di ombreggiature e l'aggiunta di annotazioni. | A differenza dei software generici, l'editor è *contestualmente consapevole* delle regole brevettuali. Ogni strumento è pre-configurato per la conformità. |
+| **Modulo di Conformità in Tempo Reale** | Un pannello di controllo dinamico che analizza il disegno in tempo reale e segnala qualsiasi violazione delle regole della giurisdizione selezionata (es. USPTO, EPO). | **Vantaggio competitivo cruciale.** Trasforma il processo da reattivo (correggere dopo il rifiuto) a proattivo (prevenire l'errore), offrendo feedback immediato e attuabile. |
+| **Gestione Centralizzata della Numerazione** | Il sistema gestisce un registro centralizzato dei numeri di riferimento per ogni progetto. L'aggiunta di un numero a un componente in una vista lo rende disponibile e coerente in tutte le altre viste. | Previene l'errore umano comune dell'incoerenza numerica (`antecedent basis`), un motivo frequente di obiezioni da parte degli esaminatori. |
+| **Esportazione Professionale** | Generazione di un pacchetto di documenti finale in formato PDF ad alta risoluzione o TIFF, formattato secondo le specifiche esatte dell'ufficio brevetti (dimensioni foglio, margini, risoluzione). | Garantisce che l'output sia "submission-ready", eliminando la necessità di ulteriori strumenti di formattazione o controllo. |
+
+---
+
+### **3. Flusso Utente (UX) Proposto**
+
+Il percorso utente è progettato per essere logico, guidato e flessibile, adattandosi sia a utenti tecnici che a consulenti legali.
+
+```mermaid
+graph TD
+    A[Start: Nuovo Progetto] --> B{Scegli Metodo di Input};
+    B --> C1[1. Descrizione Testuale (NLP)];
+    B --> C2[2. Importa File 3D (.STEP)];
+    B --> C3[3. Disegno con Primitivi];
+    
+    subgraph "Fase 1: Input & Modellazione"
+        C1 --> D(Generazione Modello 3D Interattivo);
+        C2 --> D;
+        C3 --> D;
+    end
+    
+    D --> E[Genera Viste 2D Automatiche];
+    
+    subgraph "Fase 2: Editing & Conformità"
+        E --> F(Editor 2D Intelligente);
+        F --> G{Rifinisci Disegni};
+        G --> H[Aggiungi/Modifica Linee];
+        G --> I[Applica Ombreggiature];
+        G --> J[Inserisci Numeri di Riferimento];
+        
+        K[Modulo Conformità in Tempo Reale] -.-> H;
+        K -.-> I;
+        K -.-> J;
+    end
+
+    J --> L{Revisione Finale};
+    L --> M[Genera Report di Conformità];
+    M --> N[Esporta Pacchetto PDF/TIFF];
+    N --> O[Fine: Disegni Pronti per il Deposito];
+
+    style K fill:#d4edda,stroke:#155724
+```
+
+---
+
+### **4. Principi di Progettazione dell'Interfaccia Utente (UI)**
+
+L'interfaccia di Flowith.io deve ispirare fiducia, precisione e controllo. L'estetica è subordinata alla funzionalità e alla chiarezza.
+
+1.  **Minimalismo Funzionale:** L'area di lavoro (canvas) è l'elemento dominante. Barre degli strumenti e pannelli sono discreti e contestuali, mostrando solo gli strumenti pertinenti all'attività in corso (es. modellazione 3D vs. annotazione 2D).
+2.  **Precisione Ingegneristica:** L'interfaccia utilizza griglie, guide magnetiche (snapping) e input numerici per il posizionamento e il dimensionamento. L'utente deve percepire un controllo assoluto su ogni elemento.
+3.  **Feedback Visivo Immediato:** Il modulo di conformità non è solo un report, ma un assistente visivo. Gli elementi non conformi vengono evidenziati direttamente sul canvas con un contorno discreto (es. giallo per avviso, rosso per errore critico), con tooltip che spiegano il problema.
+4.  **Flusso di Lavoro Guidato:** Per i nuovi utenti o per progetti standard, un "wizard" opzionale guida attraverso le fasi chiave: scelta della giurisdizione, importazione, selezione delle viste, annotazione e esportazione.
+5.  **Coerenza e Prevedibilità:** L'organizzazione degli elementi segue pattern consolidati: barra degli strumenti a sinistra, pannello delle proprietà/livelli a destra, barra del menu in alto. Questo riduce la curva di apprendimento.
+
+---
+
+### **5. Architettura Tecnica e Stack Tecnologico**
+
+Si propone un'architettura a microservizi, ospitata su cloud, per garantire scalabilità, manutenibilità e la capacità di aggiornare in modo indipendente componenti complessi come il motore NLP.
+
+| Componente | Tecnologia Proposta | Motivazione della Scelta |
+| :--- | :--- | :--- |
+| **Architettura** | **Microservizi** | Isola le responsabilità complesse (NLP, conversione CAD, validazione) permettendo uno sviluppo e scaling indipendenti. Ideale per un'applicazione con diverse aree funzionali specializzate. |
+| **Frontend** | **React** con **TypeScript** | Ecosistema maturo, vasta disponibilità di sviluppatori e librerie. TypeScript garantisce robustezza e manutenibilità per un'applicazione complessa. |
+| **Motore 3D/2D** | **Three.js** (3D) & **Fabric.js / Konva** (2D) | **Three.js** è lo standard di fatto per WebGL, offrendo prestazioni e flessibilità per la visualizzazione di modelli 3D. **Fabric.js** o **Konva** forniscono un object model di alto livello per la gestione della scena 2D, semplificando l'editing vettoriale. |
+| **Backend** | **Python** con **FastAPI** | **Python** è la scelta d'elezione per NLP e data science. **FastAPI** offre performance elevate, type hinting nativo (che si integra perfettamente con TypeScript) e generazione automatica di documentazione API. |
+| **Librerie Backend** | - **spaCy / Transformers** (NLP)<br>- **python-occ (OpenCASCADE)** (CAD) | **spaCy** per l'analisi sintattica e l'estrazione di entità dalla descrizione testuale. **OpenCASCADE** è un potente kernel geometrico open-source per la gestione e la conversione affidabile di formati CAD come `.STEP`. |
+| **Database** | **PostgreSQL** (Dati Relazionali)<br>**AWS S3 / Google Cloud Storage** (File) | **PostgreSQL** è robusto, affidabile e supporta tipi di dati complessi. Un **Object Storage** è indispensabile per archiviare in modo efficiente e scalabile i file 3D e i documenti generati. |
+| **Infrastruttura** | **Docker** & **Kubernetes** su **AWS/GCP** | La containerizzazione con **Docker** garantisce ambienti coerenti. **Kubernetes** permette di orchestrare i microservizi in modo scalabile e resiliente, sfruttando l'infrastruttura di un provider cloud leader. |
+
+---
+
+### **6. Modulo di Conformità Brevettuale**
+
+Questo modulo è il cuore dell'intelligenza di Flowith.io. Funziona come un "esaminatore virtuale" che assiste l'utente.
+
+1.  **Selezione della Giurisdizione:** All'inizio di un progetto, l'utente seleziona uno o più uffici brevetti di destinazione (es. `USPTO`, `EPO`). Il sistema carica dinamicamente il set di regole corrispondente.
+
+2.  **Validazione del Layout del Foglio:**
+    *   **Margini:** Il canvas visualizza guide non stampabili per i margini richiesti (es. USPTO: 2.5 cm superiore/sinistro, 1.5 cm destro, 1.0 cm inferiore). È impossibile posizionare elementi al di fuori dell'area utile.
+    *   **Numerazione:** La numerazione dei fogli (es. `2/5`) e delle figure (`Fig. 2`) viene inserita automaticamente nelle posizioni corrette e con la formattazione richiesta.
+
+3.  **Analisi delle Linee e dell'Ombreggiatura:**
+    *   **Spessore:** La palette degli strumenti offre tipi di linea predefiniti ("Contorno Esterno", "Spigolo Interno", "Linea Nascosta", "Linea di Riferimento") con spessori conformi (es. `0.4mm` per contorni, `0.2mm` per ombreggiature).
+    *   **Stile:** Il sistema verifica l'uso corretto di linee continue vs. tratteggiate.
+    *   **Ombreggiatura:** Gli strumenti di hatching applicano pattern standardizzati che non interferiscono con la leggibilità, controllando che le linee di ombreggiatura siano più sottili di quelle di contorno.
+
+4.  **Audit di Riferimento:**
+    > Prima dell'esportazione, l'utente può lanciare un "Audit di Conformità". Il sistema genera un report interattivo che elenca tutti i potenziali problemi (es. "AVVISO: Il numero di riferimento '112' appare solo in Fig. 3", "ERRORE: Spessore linea non conforme alla regola USPTO 37 CFR 1.84(l)"). Ogni voce del report è un link diretto all'elemento problematico nell'editor per una correzione immediata.
+
+---
+
+### **7. Piano di Implementazione (Roadmap)**
+
+Lo sviluppo seguirà un approccio iterativo e incrementale, focalizzato sulla consegna di valore tangibile in ogni fase.
+
+| Fase | Titolo | Durata Stimata | Obiettivi e Funzionalità Chiave |
+| :--- | :--- | :--- | :--- |
+| **1** | **MVP: Motore di Disegno e Conformità** | 3-4 Mesi | **Obiettivo:** Validare il core business con i primi utenti (consulenti brevettuali).<br>- Importazione modelli 3D (`.OBJ`, `.STL`).<br>- Editor 2D manuale per la creazione di viste.<br>- **Modulo di conformità in tempo reale per USPTO** (margini, spessori, numerazione).<br>- Esportazione in PDF. |
+| **2** | **Automazione Intelligente** | 3 Mesi | **Obiettivo:** Ridurre drasticamente l'input manuale.<br>- Generazione automatica di viste ortogonali e isometriche da modelli 3D.<br>- Proof of Concept per la generazione da testo (NLP) per geometrie semplici.<br>- Aggiunta del set di regole per l'EPO. |
+| **3** | **Piattaforma Collaborativa** | 4 Mesi | **Obiettivo:** Posizionare Flowith.io come strumento per team e aziende.<br>- Funzionalità di collaborazione multi-utente in tempo reale.<br>- Cronologia delle versioni e sistema di commenti.<br>- API per l'integrazione con software di gestione IP esterni. |
+| **4** | **Leadership e Innovazione** | Continuo | **Obiettivo:** Stabilire la leadership di mercato.<br>- Motore NLP avanzato per descrizioni complesse.<br>- Suggerimenti intelligenti basati su AI per viste e annotazioni.<br>- Supporto per ulteriori giurisdizioni e standard internazionali. |
